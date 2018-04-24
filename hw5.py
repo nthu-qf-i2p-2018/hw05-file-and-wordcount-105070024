@@ -1,52 +1,52 @@
-# -*- coding: utf-8 -*-
-import ...
 
+# coding: utf-8
+
+# In[12]:
+
+
+import string
+import csv
+import json
 
 def main(filename):
-    # read file into lines
-    lines = ...
+    
+    txtfile = open(filename)
+    lines = txtfile.readlines()
 
-    # declare a word list
     all_words = []
-
-    # extract all words from lines
+    list1 = []
+    
     for line in lines:
-        # split a line of text into a list words
-        # "I have a dream." => ["I", "have", "a", "dream."]
-        words = ...
-
-        # check the format of words and append it to "all_words" list
+        words = line.split()
+    
+    
         for word in words:
-            # then, remove (strip) unwanted punctuations from every word
-            # "dream." => "dream"
-            word = ...
-            # check if word is not empty
-            if word:
-                # append the word to "all_words" list
-                all_words...
-
-    # compute word count from all_words
-    counter = ...
-
-    # dump to a csv file named "wordcount.csv":
-    # word,count
-    # a,12345
-    # I,23456
-    # ...
-    with open(...) as csv_file:
-        # create a csv writer from a file object (or descriptor)
-        writer = ...
-        # write table head
+            translator = str.maketrans(' ',' ',string.punctuation)
+            k = word.translate(translator)
+            all_words.append(k)
+    df = set(all_words)
+    df.remove('') 
+    for w in df:
+        counter = all_words.count(w)
+        list1.append(w)
+        list1.append(counter)
+    
+    with open("wordcount.csv","w+",newline='') as csv_file:
+        writer = csv.writer(csv_file)
         writer.writerow(['word', 'count'])
-        # write all (word, count) pair into the csv writer
-        writer.writerows(...)
+        for k in range(0,len(list1),2):
+            w=list1[k]
+            counter=list1[k+1]
+            writer.writerow([w,counter])
+        csv_file.close()
 
-    # dump to a json file named "wordcount.json"
-    ...
-
-    # BONUS: dump to a pickle file named "wordcount.pkl"
-    # hint: dump the Counter object directly
-
-
+    dictionary=dict()
+    for t in range(0,len(list1),2):
+        dictionary[list1[t]]=list1[t+1]
+    with open("wordcount.json","w+",newline='') as json_file:
+        json.dump(dictionary,json_file)
+        json_file.close()
+        
 if __name__ == '__main__':
     main("i_have_a_dream.txt")
+
