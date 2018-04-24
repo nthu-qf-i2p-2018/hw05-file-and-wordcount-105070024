@@ -1,12 +1,13 @@
 
 # coding: utf-8
 
-# In[12]:
+# In[16]:
 
 
 import string
 import csv
 import json
+import pickle
 
 def main(filename):
     
@@ -18,7 +19,6 @@ def main(filename):
     
     for line in lines:
         words = line.split()
-    
     
         for word in words:
             translator = str.maketrans(' ',' ',string.punctuation)
@@ -46,6 +46,10 @@ def main(filename):
     with open("wordcount.json","w+",newline='') as json_file:
         json.dump(dictionary,json_file)
         json_file.close()
+        
+    with open("wordcount.pkl","wb") as pickle_file:
+        pickle.dump(dictionary,pickle_file)
+        pickle_file.close()
         
 if __name__ == '__main__':
     main("i_have_a_dream.txt")
