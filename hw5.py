@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[16]:
+# In[5]:
 
 
 import string
@@ -19,13 +19,12 @@ def main(filename):
     
     for line in lines:
         words = line.split()
-    
         for word in words:
-            translator = str.maketrans(' ',' ',string.punctuation)
-            k = word.translate(translator)
-            all_words.append(k)
+            for ch in string.punctuation:                                                                                                     
+                word=word.strip(ch)
+            all_words.append(word)
     df = set(all_words)
-    df.remove('') 
+    df.remove('')
     for w in df:
         counter = all_words.count(w)
         list1.append(w)
